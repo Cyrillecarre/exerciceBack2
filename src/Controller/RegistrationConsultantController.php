@@ -3,8 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Consultants;
-use App\Form\RegistrationFormType;
-use App\Security\CandidatesAthenticatorAuthenticator;
+use App\Form\RegistrationFormTypeConsultant;
+use App\Security\ConsultantAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,13 +13,13 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 
-class RegistrationController extends AbstractController
+class RegistrationConsultantController extends AbstractController
 {
-    #[Route('/register', name: 'app_register')]
+    #[Route('/registerConsultant', name: 'app_register_Consultant')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, CandidatesAthenticatorAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
     {
         $user = new Consultants();
-        $form = $this->createForm(RegistrationFormType::class, $user);
+        $form = $this->createForm(RegistrationFormTypeConsultant::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -42,7 +42,7 @@ class RegistrationController extends AbstractController
             );
         }
 
-        return $this->render('registration/register.html.twig', [
+        return $this->render('registrationConsultant/register.html.twig', [
             'registrationForm' => $form,
         ]);
     }

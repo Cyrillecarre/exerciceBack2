@@ -15,7 +15,7 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\SecurityRequestAttributes;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
-class CandidatesAthenticatorAuthenticator extends AbstractLoginFormAuthenticator
+class ConsultantAuthenticator extends AbstractLoginFormAuthenticator
 {
     use TargetPathTrait;
 
