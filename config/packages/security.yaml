@@ -6,7 +6,7 @@ security:
     providers:
         app_user_provider_chain:
             chain:
-                providers: ['app_user_provider_Consultants', 'app_user_provider_Candidates']
+                providers: ['app_user_provider_Consultants', 'app_user_provider_Candidates', 'app_user_provider_Recruiters']
         
         app_user_provider_consultants:
             entity:
@@ -16,6 +16,11 @@ security:
         app_user_provider_candidates:
             entity:
                 class: App\Entity\Candidates
+                property: email
+        
+        app_user_provider_recruiters:
+            entity:
+                class: App\Entity\Recruiters
                 property: email
         # used to reload user from session & other features (e.g. switch_user)
         # used to reload user from session & other features (e.g. switch_user)
