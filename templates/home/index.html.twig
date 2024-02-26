@@ -9,12 +9,12 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Bonjour page Home ✅</h1>
-    <ul>
-        <li><a href="{{ path('app_login') }}">Se connecter</a></li>
-        <li><a href="{{ path('app_register_Consultant') }}">S'enregistrer comme consultant</a></li>
-        <li><a href="{{ path('app_register_Candidate') }}">S'enregistrer comme candidat</a></li>
-        <li><a href="{{ path('app_register_recruiter') }}">S'enregistrer comme recruteur</a></li>
-    </ul>
+    <h1 class="col-12 text-center">Page de connexion</h1>
+    <div class="row justify-content-center">
+        <a href="{{ path('app_login') }}" class="btn btn-primary col-7 m-3">Se connecter</a>
+        <a href="{{ path('app_register_Consultant') }}" class="btn btn-warning col-6 m-3">S'enregistrer comme consultant</a>
+        <a href="{{ path('app_register_Candidate') }}" class="btn btn-warning col-6 m-3">S'enregistrer comme candidat</a>
+        <a href="{{ path('app_register_recruiter') }}" class="btn btn-warning col-6 m-3">S'enregistrer comme recruteur</a>
+    </div>
 </div>
 {% endblock %}
