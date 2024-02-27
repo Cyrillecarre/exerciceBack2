@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New JobOffer{% endblock %}
+
+{% block body %}
+    <h1>Editer une nouvelle offre d'emploi</h1>
+
+    {{ include('job_offer/_form.html.twig') }}
+
+    <a href="{{ path('app_job_offer_index') }}">Retour à la liste des offres d'emploi</a>
+{% endblock %}

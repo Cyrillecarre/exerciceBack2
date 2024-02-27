@@ -12,9 +12,14 @@
     <h1 class="col-12 text-center">Page de connexion</h1>
     <div class="row justify-content-center">
         <a href="{{ path('app_login') }}" class="btn btn-primary col-7 m-3">Se connecter</a>
-        <a href="{{ path('app_register_Consultant') }}" class="btn btn-warning col-6 m-3">S'enregistrer comme consultant</a>
-        <a href="{{ path('app_register_Candidate') }}" class="btn btn-warning col-6 m-3">S'enregistrer comme candidat</a>
-        <a href="{{ path('app_register_recruiter') }}" class="btn btn-warning col-6 m-3">S'enregistrer comme recruteur</a>
+        <div class="col-12 text-center">
+            <p>Vous n'avez pas de compte ?</p>
+            <div class="col-12 text-center d-flex justify-content-around">  
+                    <a href="{{ path('app_register_Consultant') }}" class="btn btn-warning col-4 m-2 p-3">S'enregistrer comme consultant</a>
+                    <a href="{{ path('app_register_Candidate') }}" class="btn btn-warning col-4 m-2 p-3">S'enregistrer comme candidat</a>
+                    <a href="{{ path('app_register_recruiter') }}" class="btn btn-warning col-4 m-2 p-3">S'enregistrer comme recruteur</a> 
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}
