@@ -26,6 +26,7 @@ class JobOfferController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $jobOffer = new JobOffer();
+        $jobOffer->setIsPublished(false);
         $form = $this->createForm(JobOfferType::class, $jobOffer);
         $form->handleRequest($request);
 
@@ -54,6 +55,7 @@ class JobOfferController extends AbstractController
     public function edit(Request $request, JobOffer $jobOffer, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(JobOfferType::class, $jobOffer);
+        $jobOffer->setIsPublished(false);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

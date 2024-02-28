@@ -25,8 +25,8 @@ class JobOffer
     #[ORM\Column]
     private ?int $salary = null;
 
-    #[ORM\Column]
-    private ?bool $isPublished = null;
+    #[ORM\Column (type: 'boolean')]
+    private ?bool $isPublished;
 
     public function getId(): ?int
     {
@@ -80,13 +80,16 @@ class JobOffer
 
         return $this;
     }
+    public function __construct()
+    {
+    $this->isPublished = true;
+    }
 
-    public function isIsPublished(): ?bool
+    public function getIsPublished(): ?bool
     {
         return $this->isPublished;
     }
-
-    public function setIsPublished(bool $isPublished): static
+    public function setIsPublished(bool $isPublished): self
     {
         $this->isPublished = $isPublished;
 

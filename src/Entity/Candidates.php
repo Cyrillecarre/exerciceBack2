@@ -32,6 +32,9 @@ class Candidates implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
+    #[ORM\Column(type: 'string', nullable: true)]
+    private ?string $cvFilename = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -105,5 +108,16 @@ class Candidates implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+    public function getCvFilename(): ?string
+    {
+        return $this->cvFilename;
+    }
+
+    public function setCvFilename(?string $cvFilename): static
+    {
+        $this->cvFilename = $cvFilename;
+
+        return $this;
     }
 }

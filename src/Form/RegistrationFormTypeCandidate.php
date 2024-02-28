@@ -11,6 +11,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class RegistrationFormTypeCandidate extends AbstractType
 {
@@ -43,7 +46,25 @@ class RegistrationFormTypeCandidate extends AbstractType
                     ]),
                 ],
             ])
-        ;
+        
+        ->add('cv', FileType::class, [
+            'label' => 'CV (PDF uniquement)',
+            'mapped' => false,
+            'constraints' => [
+                new File([
+                    'maxSize' => '1024k',
+                    'mimeTypes' => [
+                        'application/pdf',
+                        'application/x-pdf',
+                    ],
+                    'mimeTypesMessage' => 'Veuillez télécharger un fichier PDF valide.',
+                ]),
+            ],
+        ])
+        ->add('submit', SubmitType::class, [
+            'label' => 'Enregistrer',
+            'attr' => ['class' => 'btn btn-primary col-6 mx-auto m-3','style' => 'width: 50%'],
+        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -20,16 +20,17 @@
                     <div class="form-group m-2">
                         {{ form_row(registrationForm.agreeTerms) }}
                     </div>
-
                     <div class="form-group m-2">
-                        <button type="submit" class="btn btn-primary">Enregistrement</button>
+                        {{ form_label(registrationForm.cv, 'CV (PDF uniquement)') }}
+                        {{ form_widget(registrationForm.cv, {'attr': {'class': 'form-control-file'} }) }}
+                        {{ form_errors(registrationForm.cv) }} 
                     </div>
                     <div>
+                {{ form_end(registrationForm) }}
                         <button class="btn btn-danger m-2">
                             <a href="{{ path('app_home') }}" style="text-decoration: none; color: white;">Retour</a>
                         </button>
-                    </div>
-                {{ form_end(registrationForm) }}
+                    </div>  
             </div>
         </div>
     </div>

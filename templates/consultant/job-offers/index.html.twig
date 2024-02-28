@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ConsultantController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<h1>Liste des offres d'emploi en attente de validation</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Ville</th>
+            <th>Horaires</th>
+            <th>Salaire</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for jobOffer in jobOffers %}
+        <tr>
+            <td>{{ jobOffer.name }}</td>
+            <td>{{ jobOffer.city }}</td>
+            <td>{{ jobOffer.schedules }} /h</td>
+            <td>{{ jobOffer.salary }} €</td>
+            <td>
+                <a href="{{ path('consultant_job_offers', {'jobOfferId': jobOffer.id, 'action': 'validate'}) }}" class="btn btn-success">Valider</a>
+                <a href="{{ path('consultant_job_offers', {'jobOfferId': jobOffer.id, 'action': 'reject'}) }}" class="btn btn-danger">Supprimer</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

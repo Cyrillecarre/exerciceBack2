@@ -12,11 +12,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
+use App\Service\FileUploader;
 
 class RegistrationCandidateController extends AbstractController
 {
     #[Route('/registerCandidate', name: 'app_register_Candidate')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, ConsultantAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, ConsultantAuthenticator $authenticator, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
     {
         $user = new Candidates();
         $form = $this->createForm(RegistrationFormTypeCandidate::class, $user);
@@ -30,6 +31,12 @@ class RegistrationCandidateController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
+
+            $cvFile = $form->get('cv')->getData();
+            if ($cvFile) {
+                $cvFileName = $fileUploader->upload($cvFile);
+                $user->setCvFilename($cvFileName);
+            }
 
             $entityManager->persist($user);
             $entityManager->flush();

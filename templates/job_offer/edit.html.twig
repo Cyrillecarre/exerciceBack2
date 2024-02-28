@@ -1,13 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit JobOffer{% endblock %}
+{% block title %}New JobOffer{% endblock %}
 
 {% block body %}
-    <h1>Edit JobOffer</h1>
+    <div class="container">
+    <h1 class="text-center">Editer une nouvelle offre d'emploi</h1>
 
-    {{ include('job_offer/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('app_job_offer_index') }}">back to list</a>
-
-    {{ include('job_offer/_delete_form.html.twig') }}
+    {{ include('job_offer/_form.html.twig') }}
+        <div class="d-flex justify-content-center m-3">
+            <button type="submit" class="btn btn-primary col-5 mx-auto">
+                <a href="{{ path('app_job_offer_index') }}" 
+                    style="color: white; text-decoration: none; display: block; width: 100%; height: 100%;">
+                    Retour à la liste des offres d'emploi</a>
+            </button>
+        </div>
+    </div>
 {% endblock %}
