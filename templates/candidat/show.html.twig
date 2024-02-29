@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}JobOffer{% endblock %}
+
+{% block body %}
+<div class="container" style="width: 70%;">
+    <h1 class="text-center">Détail de l'offre</h1>
+
+    <table class="table container">
+        <tbody>
+            <tr>
+                <th>Nom</th>
+                <td>{{ job_offer.name }}</td>
+            </tr>
+            <tr>
+                <th>Ville</th>
+                <td>{{ job_offer.city }}</td>
+            </tr>
+            <tr>
+                <th>Horaires</th>
+                <td>{{ job_offer.schedules }} /h</td>
+            </tr>
+            <tr>
+                <th>Salaire</th>
+                <td>{{ job_offer.salary }} €</td>
+            </tr>
+        </tbody>
+    </table>
+    {% if app.user %}
+    <a href="#" onclick="postuler()" class="btn btn-primary">Postuler à cette offre</a>
+
+    <script>
+        function postuler() {
+            fetch('{{ postulerUrl }}', {
+                method: 'GET',
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.success) {
+                    alert(data.message);
+                } else {
+                    // Afficher un message d'erreur
+                }
+            });
+        }
+    </script>
+
+    <a href="{{ path('app_candidat') }}" class="btn btn-danger">Retour à la liste</a>
+
+</div>
+{% endif %}
+
+{% endblock %}

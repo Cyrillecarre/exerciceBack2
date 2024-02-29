@@ -35,5 +35,25 @@
         {% endfor %}
     </tbody>
 </table>
+<h1>Liste des postulants à des offres d'emploi</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>E-mail</th>
+            <th>CV</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for demandeCandidatures in demandeCandidature %}
+        <tr>
+            <td>{{ jobApplication.email }}</td>
+            <td><a href="{{ asset(jobApplication.cv) }}" target="_blank">Voir le CV</a></td>
+            <td>
+                <a href="{{ path('consultant_job_applications', {'jobApplicationId': jobApplication.id, 'action': 'accept'}) }}" class="btn btn-success">Accepter</a>
+                <a href="{{ path('consultant_job_applications', {'jobApplicationId': jobApplication.id, 'action': 'reject'}) }}" class="btn btn-danger">Rejeter</a>
+            </td>
+        </tr>
+        {% endfor %}
 
 {% endblock %}

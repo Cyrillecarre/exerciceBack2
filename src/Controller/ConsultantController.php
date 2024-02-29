@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\DemandeCandidature;
 use App\Entity\JobOffer;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -39,5 +40,42 @@ class ConsultantController extends AbstractController
         return $this->render('consultant/job-offers/index.html.twig', [
             'jobOffers' => $jobOffers,
         ]);
+    }
+
+
+    #[Route('/consultant/demandeRelation', name: 'consultant_demandeRelation')]
+    public function demandeRelation(EntityManagerInterface $em)
+    {
+        $demandeCandidature = $em->getRepository(DemandeCandidature::class)->findBy(['isValided' => false]);
+        return $this->render('consultant/demandeRelation.html.twig', [
+            'demandes' => $demandeCandidature,
+        ]);
+    }
+
+
+    #[Route('/consultant/demande/{id}/valider', name: 'app_consultant_valider_demande', methods: ['POST'])]
+    public function validerDemande(EntityManagerInterface $em, int $id)
+    {
+        $demande = $em->getRepository(DemandeCandidature::class)->find($id);
+
+        if ($demande) {
+            $demande->setIsValided(true);
+            $em->flush();
+
+            return $this->redirectToRoute('consultant_demandeRelation');
+        }
+    }
+
+    #[Route('/consultant/demande/{id}/refuser', name: 'app_consultant_refuser_demande', methods: ['DELETE'])]
+    public function refuserDemande(EntityManagerInterface $em, int $id)
+    {
+        $demande = $em->getRepository(DemandeCandidature::class)->find($id);
+
+        if ($demande) {
+            $em->remove($demande);
+            $em->flush();
+
+            return $this->redirectToRoute('consultant_demandeRelation');
+        }
     }
 }

@@ -22,12 +22,12 @@
     <tbody>
         {% for offre in offres %}
         <tr>
-            <td>{{ offre.name }}
-            <td>{{ offre.city }}
-            <td>{{ offre.schedules }}
-            <td>{{ offre.salary }}
+            <td class="text-left align-middle">{{ offre.name }}
+            <td class="text-left align-middle">{{ offre.city }}
+            <td class="text-left align-middle">{{ offre.schedules }} /h
+            <td class="text-left align-middle">{{ offre.salary }} €
             <td>
-                <a href="{{ path('app_job_offer_show', {'id': offre.id}) }}" class="btn btn-primary">Voir plus</a>
+                <a href="{{ path('app_candidat_show', {'id': offre.id}) }}" class="btn btn-primary">Voir plus</a>
             </td>  
     </tbody>
 {% endfor %}

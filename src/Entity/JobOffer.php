@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\JobOfferRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: JobOfferRepository::class)]
@@ -27,6 +29,9 @@ class JobOffer
 
     #[ORM\Column (type: 'boolean')]
     private ?bool $isPublished;
+
+    #[ORM\OneToMany(targetEntity: DemandeCandidature::class, mappedBy: 'offreEmploi')]
+    private Collection $demandeCandidatures;
 
     public function getId(): ?int
     {
@@ -83,6 +88,7 @@ class JobOffer
     public function __construct()
     {
     $this->isPublished = true;
+    $this->demandeCandidatures = new ArrayCollection();
     }
 
     public function getIsPublished(): ?bool
@@ -92,6 +98,36 @@ class JobOffer
     public function setIsPublished(bool $isPublished): self
     {
         $this->isPublished = $isPublished;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, DemandeCandidature>
+     */
+    public function getDemandeCandidatures(): Collection
+    {
+        return $this->demandeCandidatures;
+    }
+
+    public function addDemandeCandidature(DemandeCandidature $demandeCandidature): static
+    {
+        if (!$this->demandeCandidatures->contains($demandeCandidature)) {
+            $this->demandeCandidatures->add($demandeCandidature);
+            $demandeCandidature->setOffreEmploi($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDemandeCandidature(DemandeCandidature $demandeCandidature): static
+    {
+        if ($this->demandeCandidatures->removeElement($demandeCandidature)) {
+            // set the owning side to null (unless already changed)
+            if ($demandeCandidature->getOffreEmploi() === $this) {
+                $demandeCandidature->setOffreEmploi(null);
+            }
+        }
 
         return $this;
     }

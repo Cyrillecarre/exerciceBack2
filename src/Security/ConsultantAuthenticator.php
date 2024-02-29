@@ -41,13 +41,17 @@ class ConsultantAuthenticator extends AbstractLoginFormAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
-        if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
-            return new RedirectResponse($targetPath);
-        }
+        $user = $token->getUser();
 
-        // For example:
-        return new RedirectResponse($this->urlGenerator->generate('app_home'));
-        // throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
+        if ($user->getRoles()[0] === 'ROLE_CONSULTANT') {
+            return new RedirectResponse($this->urlGenerator->generate('consultant_job_offers'));
+        }  elseif ($user->getRoles()[0] === 'ROLE_RECRUITER') {
+            return new RedirectResponse($this->urlGenerator->generate('app_recruiter'));
+        } elseif ($user->getRoles()[0] === 'ROLE_CANDIDATE') {
+            return new RedirectResponse($this->urlGenerator->generate('app_candidat'));
+        } else {
+            return new RedirectResponse($this->urlGenerator->generate('homepage'));
+        }
     }
 
     protected function getLoginUrl(Request $request): string

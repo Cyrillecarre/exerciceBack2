@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CandidatesRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -24,7 +26,7 @@ class Candidates implements UserInterface, PasswordAuthenticatedUserInterface
      * @var list<string> The user roles
      */
     #[ORM\Column]
-    private array $roles = [];
+    private array $roles = ['ROLE_CANDIDATE'];
 
     /**
      * @var string The hashed password
@@ -34,6 +36,14 @@ class Candidates implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'string', nullable: true)]
     private ?string $cvFilename = null;
+
+    #[ORM\OneToMany(targetEntity: DemandeCandidature::class, mappedBy: 'userCandidat')]
+    private Collection $demandeCandidatures;
+
+    public function __construct()
+    {
+        $this->demandeCandidatures = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -65,19 +75,15 @@ class Candidates implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @see UserInterface
      *
-     * @return list<string>
+     * @return array<string>
      */
     public function getRoles(): array
     {
-        $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_CANDIDATE';
-
-        return array_unique($roles);
+        return $this->roles;
     }
 
     /**
-     * @param list<string> $roles
+     * @param array<string> $roles
      */
     public function setRoles(array $roles): static
     {
@@ -120,4 +126,35 @@ class Candidates implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, DemandeCandidature>
+     */
+    public function getDemandeCandidatures(): Collection
+    {
+        return $this->demandeCandidatures;
+    }
+
+    public function addDemandeCandidature(DemandeCandidature $demandeCandidature): static
+    {
+        if (!$this->demandeCandidatures->contains($demandeCandidature)) {
+            $this->demandeCandidatures->add($demandeCandidature);
+            $demandeCandidature->setUserCandidat($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDemandeCandidature(DemandeCandidature $demandeCandidature): static
+    {
+        if ($this->demandeCandidatures->removeElement($demandeCandidature)) {
+            // set the owning side to null (unless already changed)
+            if ($demandeCandidature->getUserCandidat() === $this) {
+                $demandeCandidature->setUserCandidat(null);
+            }
+        }
+
+        return $this;
+    }
+    
 }
