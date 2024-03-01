@@ -30,6 +30,8 @@ class RegistrationRecruiterController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
+            $user->setNameEntreprise($form->get('nameEntreprise')->getData());
+            $user->setAdresse($form->get('adresse')->getData());
 
             $entityManager->persist($user);
             $entityManager->flush();

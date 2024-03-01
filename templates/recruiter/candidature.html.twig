@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Candidature{% endblock %}
+
+{% block body %}
+
+<h1 class="text-center m-5">Candidats correspondant à vos attentes</h1>
+<table class="table container">
+    <thead>
+        <tr>
+            <th>Candidat</th>
+            <th>Offre d'emploi</th>
+            <th>Date de soumission</th>
+            <th>CV</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for demande in demandesCandidatures %}
+            <tr>
+                <td class="text-left align-middle">{{ demande.userCandidat.email }}</td>
+                <td class="text-left align-middle">{{ demande.offreEmploi.name }}</td>
+                <td class="text-left align-middle">{{ demande.date | date('Y-m-d H:i:s') }}</td>
+                <td class="text-left align-middle">
+                <button class="btn btn-primary btn-sm">
+                    <a href="{{ asset('uploads/cvs/' ~ demande.cvFilename) }}" target="_blank" style="color: white; text-decoration: none;">Lien vers le CV</a>
+                </button>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+    <button class="d-flex justify-content-center btn btn-danger m-4 col-1 mx-auto">
+        <a href="{{ path('app_recruiter') }}" style="color: white; text-decoration: none;">Retour</a>
+    </button>
+{% endblock %}

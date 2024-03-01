@@ -8,9 +8,9 @@
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
 
-<h1>Liste des offres d'emploi en attente de validation</h1>
+<h1 class="text-center m-3">Liste des offres d'emploi en attente de validation</h1>
 
-<table class="table">
+<table class="table container">
     <thead>
         <tr>
             <th>Nom</th>
@@ -23,37 +23,60 @@
     <tbody>
         {% for jobOffer in jobOffers %}
         <tr>
-            <td>{{ jobOffer.name }}</td>
-            <td>{{ jobOffer.city }}</td>
-            <td>{{ jobOffer.schedules }} /h</td>
-            <td>{{ jobOffer.salary }} €</td>
+            <td class="text-left align-middle">{{ jobOffer.name }}</td>
+            <td class="text-left align-middle">{{ jobOffer.city }}</td>
+            <td class="text-left align-middle">{{ jobOffer.schedules }} /h</td>
+            <td class="text-left align-middle">{{ jobOffer.salary }} €</td>
             <td>
-                <a href="{{ path('consultant_job_offers', {'jobOfferId': jobOffer.id, 'action': 'validate'}) }}" class="btn btn-success">Valider</a>
-                <a href="{{ path('consultant_job_offers', {'jobOfferId': jobOffer.id, 'action': 'reject'}) }}" class="btn btn-danger">Supprimer</a>
+                <a href="{{ path('consultant_job_offers', {'jobOfferId': jobOffer.id, 'action': 'validate'}) }}" class="btn btn-success btn-sm">Valider</a>
+                <a href="{{ path('consultant_job_offers', {'jobOfferId': jobOffer.id, 'action': 'reject'}) }}" class="btn btn-danger btn-sm">Supprimer</a>
             </td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
-<h1>Liste des postulants à des offres d'emploi</h1>
-<table class="table">
+
+
+<h1 class="text-center m-4">Demandes de candidature</h1>
+
+<table class="table container">
     <thead>
         <tr>
-            <th>E-mail</th>
-            <th>CV</th>
+            <th>Candidat</th>
+            <th>Offre d'emploi</th>
+            <th>Date de soumission</th>
+            <th>Statut</th>
             <th>Actions</th>
         </tr>
     </thead>
     <tbody>
-        {% for demandeCandidatures in demandeCandidature %}
-        <tr>
-            <td>{{ jobApplication.email }}</td>
-            <td><a href="{{ asset(jobApplication.cv) }}" target="_blank">Voir le CV</a></td>
-            <td>
-                <a href="{{ path('consultant_job_applications', {'jobApplicationId': jobApplication.id, 'action': 'accept'}) }}" class="btn btn-success">Accepter</a>
-                <a href="{{ path('consultant_job_applications', {'jobApplicationId': jobApplication.id, 'action': 'reject'}) }}" class="btn btn-danger">Rejeter</a>
-            </td>
-        </tr>
+        {% for demande in demandes %}
+            <tr>
+                <td class="text-left align-middle">{{ demande.userCandidat.email }}</td>
+                <td class="text-left align-middle">{{ demande.offreEmploi.name }}</td>
+                <td class="text-left align-middle">{{ demande.date | date('Y-m-d H:i:s') }}</td>
+                <td class="text-left align-middle">
+                    {% if demande.isValided %}
+                        Validée
+                    {% else %}
+                        En attente
+                    {% endif %}
+                </td>
+                <td>
+                    {% if not demande.isValided %}
+                        <form method="POST" action="{{ path('app_consultant_valider_demande', {'id': demande.id}) }}">
+                            <button type="submit" class="btn btn-success btn-sm m-1">Valider</button>
+                        </form>
+                        <form method="DELETE" action="{{ path('app_consultant_refuser_demande', {'id': demande.id}) }}">
+                            <button type="submit" class="btn btn-danger btn-sm">Refuser</button>
+                        </form>
+                    {% endif %}
+                </td>
+            </tr>
         {% endfor %}
+    </tbody>
+</table>
+
+    
 
 {% endblock %}

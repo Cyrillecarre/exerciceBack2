@@ -32,6 +32,40 @@ class Recruiters implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
+
+    #[ORM\Column(length: 255, nullable: false)]
+    private ?string $nameEntreprise = null;
+
+    #[ORM\Column(type: 'text', nullable: false)]
+    private ?string $adresse = null;
+
+    // ...
+
+    public function getNameEntreprise(): ?string
+    {
+        return $this->nameEntreprise;
+    }
+
+    public function setNameEntreprise(?string $nameEntreprise): self
+    {
+        $this->nameEntreprise = $nameEntreprise;
+
+        return $this;
+    }
+
+    public function getAdresse(): ?string
+    {
+        return $this->adresse;
+    }
+
+    public function setAdresse(?string $adresse): self
+    {
+        $this->adresse = $adresse;
+
+        return $this;
+    }
+
+
     public function getId(): ?int
     {
         return $this->id;

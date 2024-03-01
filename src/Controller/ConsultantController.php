@@ -19,6 +19,8 @@ class ConsultantController extends AbstractController
     {
         $jobOffers = $em->getRepository(JobOffer::class)->findBy(['isPublished' => false]);
 
+        $demandeCandidature = $em->getRepository(DemandeCandidature::class)->findBy(['isValided' => false]);
+
         // Traiter la validation ou la suppression d'une offre d'emploi
         $jobOfferId = $request->get('jobOfferId');
         if ($jobOfferId) {
@@ -39,18 +41,10 @@ class ConsultantController extends AbstractController
 
         return $this->render('consultant/job-offers/index.html.twig', [
             'jobOffers' => $jobOffers,
-        ]);
-    }
-
-
-    #[Route('/consultant/demandeRelation', name: 'consultant_demandeRelation')]
-    public function demandeRelation(EntityManagerInterface $em)
-    {
-        $demandeCandidature = $em->getRepository(DemandeCandidature::class)->findBy(['isValided' => false]);
-        return $this->render('consultant/demandeRelation.html.twig', [
             'demandes' => $demandeCandidature,
         ]);
     }
+
 
 
     #[Route('/consultant/demande/{id}/valider', name: 'app_consultant_valider_demande', methods: ['POST'])]

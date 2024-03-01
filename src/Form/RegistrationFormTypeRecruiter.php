@@ -11,6 +11,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class RegistrationFormTypeRecruiter extends AbstractType
 {
@@ -26,9 +28,14 @@ class RegistrationFormTypeRecruiter extends AbstractType
                     ]),
                 ],
             ])
+            ->add('nameEntreprise', TextType::class, [
+                'label' => 'Nom de l\'entreprise',
+            ])
+            ->add('adresse', TextareaType::class, [
+                'label' => 'Adresse',
+            ])
             ->add('plainPassword', PasswordType::class, [
-                                // instead of being set onto the object directly,
-                // this is read and encoded in the controller
+                               
                 'mapped' => false,
                 'attr' => ['autocomplete' => 'new-password'],
                 'constraints' => [
@@ -38,7 +45,6 @@ class RegistrationFormTypeRecruiter extends AbstractType
                     new Length([
                         'min' => 6,
                         'minMessage' => 'Your password should be at least {{ limit }} characters',
-                        // max length allowed by Symfony for security reasons
                         'max' => 4096,
                     ]),
                 ],
