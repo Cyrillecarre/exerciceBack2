@@ -9,7 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\JobOffer;
 use App\Entity\DemandeCandidature;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
+use App\Repository\JobOfferRepository;
 
 
 
@@ -20,7 +20,7 @@ class CandidatController extends AbstractController
     {
 
         $jobOfferRepository = $em->getRepository(JobOffer::class);
-        $offres = $jobOfferRepository->findAll();
+        $offres = $jobOfferRepository->findBy(['isPublished' => true]);
 
         return $this->render('candidat/index.html.twig', [
             'controller_name' => 'CandidatController',
@@ -29,11 +29,16 @@ class CandidatController extends AbstractController
     }
 
     #[Route('/candidat/{id}', name: 'app_candidat_show', methods: ['GET'])]
-    public function show(JobOffer $jobOffer): Response
+    public function show(JobOffer $jobOffer, jobOfferRepository $jobOfferRepository, int $id): Response
     {
+        $jobOffer = $jobOfferRepository->findBy(['id' => $id, 'isPublished' => true]);
+        $jobOffer = $jobOffer[0];
+        $postulerUrl = $this->generateUrl('app_candidat_postulerAjax', ['id' => $jobOffer->getId()]);
+
+
         return $this->render('candidat/show.html.twig', [
             'job_offer' => $jobOffer,
-            'postulerUrl' => $this->generateUrl('app_candidat_postulerAjax', ['id' => $jobOffer->getId()]),
+            'postulerUrl' => $postulerUrl,
         ]);
     }
 
